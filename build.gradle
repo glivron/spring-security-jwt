@@ -1,0 +1,27 @@
+task wrapper(type: Wrapper) { gradleVersion = '2.13' }
+
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    }
+}
+
+apply plugin: 'spring-boot'
+apply plugin: 'idea'
+
+repositories { jcenter() }
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework:spring-tx'
+
+    compile 'io.jsonwebtoken:jjwt:0.6.0'
+
+    compile 'org.springframework.boot:spring-boot-devtools'
+}
+
+bootRepackage {
+    excludeDevtools = true
+}

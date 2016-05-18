@@ -1,0 +1,15 @@
+logging.level:
+  hello: DEBUG
+  org.apache: WARN
+  org.apache.coyote: INFO
+  org.apache.catalina: INFO
+  org.springframework: WARN
+  org.springframework.security: WARN
+
+spring:
+  profiles.active: local,dev
+  main.banner-mode: "off"
+  output.ansi.enabled: always
+
+jwt:
+  key: wlgX7QFDOszUXjzt29FBqSznD8YeUwxD

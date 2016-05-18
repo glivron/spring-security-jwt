@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"/>
+    <title>Spring Security JWT</title>
+  </head>
+  <body>
+    <span id="token"></span>
+    <span id="error" style="color: red"></span>
+    <form method="post" action="logout">
+      <input type="submit" value="Logout"/>
+    </form>
+  </body>
+  <script>
+    function status(response) {
+      if (response.status >= 200 && response.status < 300) {
+        return Promise.resolve(response)
+      } else {
+        return Promise.reject(new Error(response.statusText))
+      }
+    }
+
+    function json(response) {
+      return response.json()
+    }
+
+    fetch('whoami', {credentials: 'include'}).then(status).then(json).then(function (token) {
+      document.querySelector('#token').innerHTML = JSON.stringify(token);
+    }).catch(function (error) {
+      document.querySelector('#error').innerHTML = error;
+    });
+  </script>
+</html>
