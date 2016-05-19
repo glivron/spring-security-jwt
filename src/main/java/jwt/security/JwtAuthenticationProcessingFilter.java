@@ -19,15 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.PublicKey;
 import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static java.util.Arrays.stream;
 import static java.util.Collections.emptyList;
-import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toSet;
 import static jwt.security.JwtAuthenticationSuccessHandler.AUTHORITIES_KEY;
 import static jwt.security.JwtAuthenticationSuccessHandler.JWT_COOKIE;
 import static org.slf4j.LoggerFactory.getLogger;
+import static org.springframework.web.util.WebUtils.getCookie;
 
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
@@ -44,7 +43,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            extractJwtCookie(request)
+            ofNullable(getCookie(request, JWT_COOKIE))
+                    .map(Cookie::getValue)
 
                     .map(token -> Jwts.parser()
                             .setSigningKey(key)
@@ -65,27 +65,13 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private Optional<String> extractJwtCookie(final HttpServletRequest request) {
-        final Cookie[] cookies = request.getCookies();
-
-        if ((cookies == null) || (cookies.length == 0)) {
-            return empty();
-        }
-
-        return stream(cookies)
-                .filter(cookie -> JWT_COOKIE.equals(cookie.getName()))
-                .map(Cookie::getValue)
-                .map(String::trim)
-                .findFirst();
-    }
-
     @SuppressWarnings("unchecked")
     private Collection<? extends GrantedAuthority> extractAuthorities(final Jws<Claims> jws) {
         try {
             return ((Collection<String>) jws.getBody().get(AUTHORITIES_KEY))
                     .stream()
                     .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toSet());
+                    .collect(toSet());
         }
         catch (final Exception e) {
             logger.warn(e.getMessage(), e);
