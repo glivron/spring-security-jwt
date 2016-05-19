@@ -19,6 +19,8 @@ dependencies {
     compile 'io.jsonwebtoken:jjwt:0.6.0'
 
     compile 'org.springframework.boot:spring-boot-devtools'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
 bootRepackage {

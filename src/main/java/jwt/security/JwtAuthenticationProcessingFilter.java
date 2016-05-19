@@ -17,15 +17,16 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static jwt.security.JwtAuthenticationSuccessHandler.AUTHORITIES_KEY;
-import static jwt.security.JwtAuthenticationSuccessHandler.JWT_COOKIE;
 import static java.util.Arrays.stream;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.empty;
+import static jwt.security.JwtAuthenticationSuccessHandler.AUTHORITIES_KEY;
+import static jwt.security.JwtAuthenticationSuccessHandler.JWT_COOKIE;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
@@ -34,9 +35,9 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private final Logger logger = getLogger(JwtAuthenticationProcessingFilter.class);
 
-    private final String key;
+    private final PublicKey key;
 
-    public JwtAuthenticationProcessingFilter(final String key) {
+    public JwtAuthenticationProcessingFilter(final PublicKey key) {
         this.key = key;
     }
 

@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"/>
     <title>Spring Security JWT</title>
-  </head>
-  <body>
+</head>
+<body>
+<p>
     <span id="token"></span>
     <span id="error" style="color: red"></span>
-    <form method="post" action="logout">
-      <input type="submit" value="Logout"/>
-    </form>
-  </body>
-  <script>
+</p>
+<form method="post" action="logout">
+    <input type="submit" value="Logout"/>
+</form>
+</body>
+<script>
     function status(response) {
       if (response.status >= 200 && response.status < 300) {
         return Promise.resolve(response)
@@ -31,5 +33,6 @@
     }).catch(function (error) {
       document.querySelector('#error').innerHTML = error;
     });
-  </script>
+
+</script>
 </html>

@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.PrivateKey;
 import java.util.Date;
 import java.util.Set;
 
@@ -23,13 +24,13 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
 
     public static final String AUTHORITIES_KEY = "AUTHORITIES";
 
-    private final String key;
+    private final PrivateKey key;
 
     private final String successUrl;
 
     private final int expiry;
 
-    public JwtAuthenticationSuccessHandler(final String key, final String successUrl, final int expiry) {
+    public JwtAuthenticationSuccessHandler(final PrivateKey key, final String successUrl, final int expiry) {
         this.key = key;
         this.successUrl = successUrl;
         this.expiry = expiry;
@@ -48,7 +49,7 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
                 .setExpiration(expiration)
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS512, key)
+                .signWith(SignatureAlgorithm.RS384, key)
                 .compact();
 
         final Cookie cookie = new Cookie(JWT_COOKIE, token);
