@@ -1,4 +1,4 @@
-task wrapper(type: Wrapper) { gradleVersion = '2.13' }
+task wrapper(type: Wrapper) { gradleVersion = '3.0' }
 
 buildscript {
     repositories { jcenter() }
@@ -16,7 +16,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-security'
 
-    compile 'io.jsonwebtoken:jjwt:0.6.0'
+    compile "io.jsonwebtoken:jjwt:$jjwtVersion"
 
     compile 'org.springframework.boot:spring-boot-devtools'
 
